@@ -95,7 +95,6 @@ void onMouse(int event, int x, int y, int flags, void* userData) //rysowanie - p
 		//std::cout << pimg->at<cv::Vec3b>(y, x) << std::endl;
 		myszka->xp = x;
 		myszka->yp = y;
-
 	}
 	if (event == cv::EVENT_LBUTTONUP)
 	{
