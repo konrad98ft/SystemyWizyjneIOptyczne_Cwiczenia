@@ -79,7 +79,8 @@ void onMouse(int event, int x, int y, int flags, void* userdata) //rysowanie - p
 struct SDaneMysz
 {
 	cv::Mat imgIn, imgOut;
-	int xp,yp,xk,yk,ev,f;
+	int xp,yp,xk,yk;
+	bool leftIsPressed;
 };
 
 
@@ -87,7 +88,6 @@ void onMouse(int event, int x, int y, int flags, void* userData) //rysowanie - p
 {
 	SDaneMysz* myszka = (SDaneMysz*)userData;
 	myszka->imgOut=myszka->imgIn.clone();
-	//std::cout << "x:" << x << " y:" << y << " e:" << event << " f:" << flags << std::endl;
 	//std::cout << pimg->at<cv::Vec3b>(y, x) << std::endl;
 	if (event == cv::EVENT_LBUTTONDOWN)
 	{
@@ -95,6 +95,8 @@ void onMouse(int event, int x, int y, int flags, void* userData) //rysowanie - p
 		//std::cout << pimg->at<cv::Vec3b>(y, x) << std::endl;
 		myszka->xp = x;
 		myszka->yp = y;
+		myszka->leftIsPressed = true;
+
 	}
 	if (event == cv::EVENT_LBUTTONUP)
 	{
@@ -103,9 +105,10 @@ void onMouse(int event, int x, int y, int flags, void* userData) //rysowanie - p
 		myszka->xk = x;
 		myszka->yk = y;
 		line(myszka->imgIn, Point(myszka->xp, myszka->yp), Point(myszka->xk, myszka->yk), Scalar(255, 0, 0), 2);	
+		myszka->leftIsPressed = false;
 	}
-	cout << "xp: " << myszka->xp << " yp: " << myszka->yp << "xk: " << myszka->xk << " yk: " << myszka->yk<< endl;
-	line(myszka->imgOut, Point(myszka->xp, myszka->yp), Point(x, y), Scalar(0, 0, 255), 2);
+	cout<<"x: "<<x<<" y: "<<y << " xp: " << myszka->xp << " yp: " << myszka->yp << "xk: " << myszka->xk << " yk: " << myszka->yk<< endl;
+	if(myszka->leftIsPressed) line(myszka->imgOut, Point(myszka->xp, myszka->yp), Point(x, y), Scalar(0, 0, 255), 2);
 	cv::imshow("Test", myszka->imgOut);
 }
 #endif
@@ -195,7 +198,7 @@ int main()
 #if STEP==9 || STEP==10 || STEP==11 || STEP==12 //obs�uga myszki
 	cv::Mat loadedImg = cv::imread(IMG_PATH);
 	cv::imshow("Test", loadedImg);
-	SDaneMysz myszka = { loadedImg,loadedImg.clone(),0,0,0,0,0,0 };
+	SDaneMysz myszka = { loadedImg,loadedImg.clone(),0,0,0,0,false };
 	cv::setMouseCallback("Test", onMouse, &myszka);
 	cv::waitKey();
 #endif
