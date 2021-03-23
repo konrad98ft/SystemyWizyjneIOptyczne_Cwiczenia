@@ -84,24 +84,20 @@ struct SDaneMysz
 };
 
 
-void onMouse(int event, int x, int y, int flags, void* userData) //rysowanie - przeci�gani� przy naci�ni�tym przycisku, SHIFT zmiana koloru
+void onMouse(int event, int x, int y, int flags, void* userData) //rysowanie - przeci�gani� przy naci�ni�tym przycisku
 {
 	SDaneMysz* myszka = (SDaneMysz*)userData;
 	myszka->imgOut=myszka->imgIn.clone();
-	//std::cout << pimg->at<cv::Vec3b>(y, x) << std::endl;
 	if (event == cv::EVENT_LBUTTONDOWN)
 	{
 		cv::Mat* pimg = (cv::Mat*)myszka;
-		//std::cout << pimg->at<cv::Vec3b>(y, x) << std::endl;
 		myszka->xp = x;
 		myszka->yp = y;
 		myszka->leftIsPressed = true;
-
 	}
 	if (event == cv::EVENT_LBUTTONUP)
 	{
 		cv::Mat* pimg = (cv::Mat*)myszka;
-		//std::cout << pimg->at<cv::Vec3b>(y, x) << std::endl;
 		myszka->xk = x;
 		myszka->yk = y;
 		line(myszka->imgIn, Point(myszka->xp, myszka->yp), Point(myszka->xk, myszka->yk), Scalar(255, 0, 0), 2);	
@@ -203,7 +199,6 @@ int main()
 	cv::waitKey();
 #endif
 	return 0;
-
 }
 
 
